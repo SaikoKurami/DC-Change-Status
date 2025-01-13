@@ -23,7 +23,7 @@ function updateStatus() {
   const statusMessages = ["👷‍♂️ 𝗙𝗨𝗧𝗨𝗥𝗘 𝗘𝗡𝗚𝗜𝗡𝗘𝗘𝗥𝗦", "👷‍♀️ 𝗙𝗨𝗧𝗨𝗥𝗘 𝗘𝗡𝗚𝗜𝗡𝗘𝗘𝗥𝗦"];
   const currentStatus = statusMessages[0]; // Update this to cycle or select
   client.user.setPresence({
-    activities: [{ name: `Watching ${currentStatus}`, type: ActivityType.Watching }],
+    activities: [{ name: `${currentStatus}`, type: ActivityType.Watching }],
     status: 'online',
   });
   console.log('\x1b[33m[ STATUS ]\x1b[0m', `Updated status to: Watching ${currentStatus}`);
