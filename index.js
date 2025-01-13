@@ -30,7 +30,7 @@ async function login() {
 client.once('ready', () => {
   console.log('\x1b[36m[ INFO ]\x1b[0m', `\x1b[34mPing: ${client.ws.ping} ms \x1b[0m`);
   client.user.setPresence({
-    activities: [{ name: "👷‍♂️ 𝗙𝗨𝗧𝗨𝗥𝗘 𝗘𝗡𝗚𝗜𝗡𝗘𝗘𝗥𝗦", type: ActivityType.Watching }],
+    activities: [{ name: "𝗙𝗨𝗧𝗨𝗥𝗘 𝗘𝗡𝗚𝗜𝗡𝗘𝗘𝗥𝗦 👷‍♂️", type: ActivityType.Watching }],
     status: 'online',
   });
   console.log('\x1b[33m[ STATUS ]\x1b[0m', `Set activity to: Watching 𝗙𝗨𝗧𝗨𝗥𝗘 𝗘𝗡𝗚𝗜𝗡𝗘𝗘𝗥𝗦 👷‍♂️`);
