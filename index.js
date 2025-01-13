@@ -1,18 +1,10 @@
 const { Client, GatewayIntentBits, ActivityType } = require('discord.js');
 require('dotenv').config();
-const express = require('express');
 
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds
   ],
-});
-
-const app = express();
-const port = 3000;
-
-app.listen(port, () => {
-  console.log('\x1b[36m[ SERVER ]\x1b[0m', '\x1b[32m SH : http://localhost:' + port + ' ✅\x1b[0m');
 });
 
 async function login() {
@@ -27,13 +19,27 @@ async function login() {
   }
 }
 
-client.once('ready', () => {
-  console.log('\x1b[36m[ INFO ]\x1b[0m', `\x1b[34mPing: ${client.ws.ping} ms \x1b[0m`);
+function updateStatus() {
+  const statusMessages = ["👷‍♂️ 𝗙𝗨𝗧𝗨𝗥𝗘 𝗘𝗡𝗚𝗜𝗡𝗘𝗘𝗥𝗦", "👷‍♀️ 𝗙𝗨𝗧𝗨𝗥𝗘 𝗘𝗡𝗚𝗜𝗡𝗘𝗘𝗥𝗦"];
+  const currentStatus = statusMessages[0]; // Update this to cycle or select
   client.user.setPresence({
-    activities: [{ name: "𝗙𝗨𝗧𝗨𝗥𝗘 𝗘𝗡𝗚𝗜𝗡𝗘𝗘𝗥𝗦 👷‍♂️", type: ActivityType.Watching }],
+    activities: [{ name: `Watching ${currentStatus}`, type: ActivityType.Watching }],
     status: 'online',
   });
-  console.log('\x1b[33m[ STATUS ]\x1b[0m', `Set activity to: Watching 𝗙𝗨𝗧𝗨𝗥𝗘 𝗘𝗡𝗚𝗜𝗡𝗘𝗘𝗥𝗦 👷‍♂️`);
+  console.log('\x1b[33m[ STATUS ]\x1b[0m', `Updated status to: Watching ${currentStatus}`);
+}
+
+function heartbeat() {
+  setInterval(() => {
+    console.log('\x1b[35m[ HEARTBEAT ]\x1b[0m', `Bot is alive at ${new Date().toLocaleTimeString()}`);
+  }, 30000);
+}
+
+client.once('ready', () => {
+  console.log('\x1b[36m[ INFO ]\x1b[0m', `\x1b[34mPing: ${client.ws.ping} ms \x1b[0m`);
+  updateStatus();
+  setInterval(updateStatus, 10000);
+  heartbeat();
 });
 
 login();
