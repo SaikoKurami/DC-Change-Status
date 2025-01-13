@@ -1,11 +1,28 @@
 const { Client, GatewayIntentBits, ActivityType } = require('discord.js');
 require('dotenv').config();
+const express = require('express');
+const path = require('path');
 
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds
   ],
 });
+
+const app = express();
+const port = 3000;
+app.get('/', (req, res) => {
+  const imagePath = path.join(__dirname, 'index.html');
+  res.sendFile(imagePath);
+});
+app.listen(port, () => {
+  console.log('\x1b[36m[ SERVER ]\x1b[0m', '\x1b[32m SH : http://localhost:' + port + ' ✅\x1b[0m');
+});
+
+const statusMessages = ["👷‍♂️ 𝗙𝗨𝗧𝗨𝗥𝗘 𝗘𝗡𝗚𝗜𝗡𝗘𝗘𝗥𝗦", "👷‍♀️ 𝗙𝗨𝗧𝗨𝗥𝗘 𝗘𝗡𝗚𝗜𝗡𝗘𝗘𝗥𝗦"];
+const statusTypes = ['dnd', 'idle'];
+let currentStatusIndex = 0;
+let currentTypeIndex = 0;
 
 async function login() {
   try {
@@ -20,13 +37,15 @@ async function login() {
 }
 
 function updateStatus() {
-  const statusMessages = ["👷‍♂️ 𝗖𝗜𝗩𝗜𝗟 𝗘𝗡𝗚𝗜𝗡𝗘𝗘𝗥𝗦", "👷‍♀️ 𝗖𝗜𝗩𝗜𝗟 𝗘𝗡𝗚𝗜𝗡𝗘𝗘𝗥𝗦"];
-  const currentStatus = statusMessages[0]; // Update this to cycle or select
+  const currentStatus = statusMessages[currentStatusIndex];
+  const currentType = statusTypes[currentTypeIndex];
   client.user.setPresence({
-    activities: [{ name: `${currentStatus}`, type: ActivityType.Watching }],
-    status: 'online',
+    activities: [{ name: currentStatus, type: ActivityType.Custom }],
+    status: currentType,
   });
-  console.log('\x1b[33m[ STATUS ]\x1b[0m', `Updated status to: Watching ${currentStatus}`);
+  console.log('\x1b[33m[ STATUS ]\x1b[0m', `Updated status to: ${currentStatus} (${currentType})`);
+  currentStatusIndex = (currentStatusIndex + 1) % statusMessages.length;
+  currentTypeIndex = (currentTypeIndex + 1) % statusTypes.length;
 }
 
 function heartbeat() {
