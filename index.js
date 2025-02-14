@@ -19,7 +19,7 @@ app.listen(port, () => {
   console.log('\x1b[36m[ SERVER ]\x1b[0m', '\x1b[32m SH : http://localhost:' + port + ' ✅\x1b[0m');
 });
 
-const statusMessages = ["👷‍♂️ 𝗙𝗨𝗧𝗨𝗥𝗘 𝗘𝗡𝗚𝗜𝗡𝗘𝗘𝗥𝗦", "👷‍♀️ 𝗙𝗨𝗧𝗨𝗥𝗘 𝗘𝗡𝗚𝗜𝗡𝗘𝗘𝗥𝗦"];
+const statusMessages = ["👷‍♂️ 𝗙𝗨𝗧𝗨𝗥𝗘 𝗥𝗖𝗘 𝟮𝟬𝟮𝟱", "👷‍♀️ 𝗙𝗨𝗧𝗨𝗥𝗘 𝗥𝗖𝗘 𝟮𝟬𝟮𝟱"];
 const statusTypes = ['dnd', 'idle'];
 let currentStatusIndex = 0;
 let currentTypeIndex = 0;
