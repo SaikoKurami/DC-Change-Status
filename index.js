@@ -20,9 +20,7 @@ app.listen(port, () => {
 });
 
 const statusMessages = ["👷‍♂️ 𝗙𝗨𝗧𝗨𝗥𝗘 𝗥𝗖𝗘 𝟮𝟬𝟮𝟱", "👷‍♀️ 𝗙𝗨𝗧𝗨𝗥𝗘 𝗥𝗖𝗘 𝟮𝟬𝟮𝟱"];
-const statusTypes = ['dnd', 'idle'];
 let currentStatusIndex = 0;
-let currentTypeIndex = 0;
 
 async function login() {
   try {
@@ -38,14 +36,12 @@ async function login() {
 
 function updateStatus() {
   const currentStatus = statusMessages[currentStatusIndex];
-  const currentType = statusTypes[currentTypeIndex];
   client.user.setPresence({
     activities: [{ name: currentStatus, type: ActivityType.Custom }],
-    status: currentType,
+    status: "online", // Always set status to "online"
   });
-  console.log('\x1b[33m[ STATUS ]\x1b[0m', `Updated status to: ${currentStatus} (${currentType})`);
+  console.log('\x1b[33m[ STATUS ]\x1b[0m', `Updated status to: ${currentStatus} (online)`);
   currentStatusIndex = (currentStatusIndex + 1) % statusMessages.length;
-  currentTypeIndex = (currentTypeIndex + 1) % statusTypes.length;
 }
 
 function heartbeat() {
