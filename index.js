@@ -1,4 +1,11 @@
-const { Client, GatewayIntentBits, ActivityType } = require('discord.js');
+const { 
+  Client, 
+  GatewayIntentBits, 
+  ActivityType, 
+  REST, 
+  Routes, 
+  SlashCommandBuilder 
+} = require('discord.js');
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
@@ -21,6 +28,14 @@ app.listen(port, () => {
 
 const statusMessages = ["👷‍♂️ 𝗙𝗨𝗧𝗨𝗥𝗘 𝗥𝗖𝗘 𝟮𝟬𝟮𝟱", "👷‍♀️ 𝗙𝗨𝗧𝗨𝗥𝗘 𝗥𝗖𝗘 𝟮𝟬𝟮𝟱"];
 let currentStatusIndex = 0;
+
+// Define slash command
+const commands = [
+  new SlashCommandBuilder()
+    .setName('ping')
+    .setDescription('Replies with Pong!')
+    .toJSON()
+];
 
 async function login() {
   try {
@@ -50,11 +65,34 @@ function heartbeat() {
   }, 30000);
 }
 
-client.once('ready', () => {
+// Handle slash command interactions
+client.on('interactionCreate', async interaction => {
+  if (!interaction.isChatInputCommand()) return;
+
+  if (interaction.commandName === 'ping') {
+    await interaction.reply('Pong! 🏓');
+  }
+});
+
+// Register slash command and other startup logic
+client.once('ready', async () => {
   console.log('\x1b[36m[ INFO ]\x1b[0m', `\x1b[34mPing: ${client.ws.ping} ms \x1b[0m`);
   updateStatus();
   setInterval(updateStatus, 10000);
   heartbeat();
+
+  // Register slash command globally
+  const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
+  try {
+    console.log('\x1b[36m[ SLASH ]\x1b[0m Registering slash commands...');
+    await rest.put(
+      Routes.applicationCommands(client.user.id),
+      { body: commands }
+    );
+    console.log('\x1b[36m[ SLASH ]\x1b[0m Slash command registered: /ping ✅');
+  } catch (error) {
+    console.error('\x1b[31m[ ERROR ]\x1b[0m Failed to register slash commands:', error);
+  }
 });
 
 login();
