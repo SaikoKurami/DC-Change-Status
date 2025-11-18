@@ -70,14 +70,17 @@ client.on('interactionCreate', async interaction => {
   if (!interaction.isChatInputCommand()) return;
 
   if (interaction.commandName === 'ping') {
-    await interaction.reply('Pong! 🏓');
 
-    // -----------------------------
-    // ⭐ ADDED: Active Developer log
-    // -----------------------------
+    // Prevent "Unknown Interaction (10062)" error
+    await interaction.deferReply();
+
+    // Actual reply
+    await interaction.editReply('Pong! 🏓');
+
+    // Active Developer log
     console.log(
       '\x1b[32m[ ACTIVE DEVELOPER ]\x1b[0m',
-      'Slash command interaction processed ✔ Your bot is now eligible.'
+      'Slash command interaction processed ✔'
     );
   }
 });
@@ -89,13 +92,10 @@ client.once('ready', async () => {
   setInterval(updateStatus, 10000);
   heartbeat();
 
-  // -----------------------------------------------
-  // ⭐ ADDED: Reminder (shows when bot starts)
-  // -----------------------------------------------
+  // Active Developer reminder
   console.log(
     '\x1b[36m[ ACTIVE DEVELOPER ]\x1b[0m',
-    'Use /ping at least once → then claim badge:\n' +
-    'https://discord.com/developers/active-developer'
+    'Use /ping once → then claim badge at:\nhttps://discord.com/developers/active-developer'
   );
 
   // Register slash command globally
