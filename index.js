@@ -69,34 +69,24 @@ function heartbeat() {
 client.on('interactionCreate', async interaction => {
   if (!interaction.isChatInputCommand()) return;
 
+  // ⭐ Active Developer: this log counts command usage
+  console.log(`\x1b[32m[ ACTIVE DEV ]\x1b[0m Slash command used: /${interaction.commandName}`);
+
   if (interaction.commandName === 'ping') {
-
-    // Prevent "Unknown Interaction (10062)" error
-    await interaction.deferReply();
-
-    // Actual reply
-    await interaction.editReply('Pong! 🏓');
-
-    // Active Developer log
-    console.log(
-      '\x1b[32m[ ACTIVE DEVELOPER ]\x1b[0m',
-      'Slash command interaction processed ✔'
-    );
+    await interaction.reply('Pong! 🏓');
   }
 });
 
 // Register slash command and other startup logic
 client.once('ready', async () => {
   console.log('\x1b[36m[ INFO ]\x1b[0m', `\x1b[34mPing: ${client.ws.ping} ms \x1b[0m`);
+  
+  // ⭐ Active Developer requirement reminder
+  console.log('\x1b[32m[ ACTIVE DEV ]\x1b[0m Slash commands active → Eligible for Active Developer Badge');
+
   updateStatus();
   setInterval(updateStatus, 10000);
   heartbeat();
-
-  // Active Developer reminder
-  console.log(
-    '\x1b[36m[ ACTIVE DEVELOPER ]\x1b[0m',
-    'Use /ping once → then claim badge at:\nhttps://discord.com/developers/active-developer'
-  );
 
   // Register slash command globally
   const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
