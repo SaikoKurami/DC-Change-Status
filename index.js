@@ -53,7 +53,7 @@ function updateStatus() {
   const currentStatus = statusMessages[currentStatusIndex];
   client.user.setPresence({
     activities: [{ name: currentStatus, type: ActivityType.Custom }],
-    status: "online", // Always set status to "online"
+    status: "online",
   });
   console.log('\x1b[33m[ STATUS ]\x1b[0m', `Updated status to: ${currentStatus} (online)`);
   currentStatusIndex = (currentStatusIndex + 1) % statusMessages.length;
@@ -71,6 +71,14 @@ client.on('interactionCreate', async interaction => {
 
   if (interaction.commandName === 'ping') {
     await interaction.reply('Pong! 🏓');
+
+    // -----------------------------
+    // ⭐ ADDED: Active Developer log
+    // -----------------------------
+    console.log(
+      '\x1b[32m[ ACTIVE DEVELOPER ]\x1b[0m',
+      'Slash command interaction processed ✔ Your bot is now eligible.'
+    );
   }
 });
 
@@ -80,6 +88,15 @@ client.once('ready', async () => {
   updateStatus();
   setInterval(updateStatus, 10000);
   heartbeat();
+
+  // -----------------------------------------------
+  // ⭐ ADDED: Reminder (shows when bot starts)
+  // -----------------------------------------------
+  console.log(
+    '\x1b[36m[ ACTIVE DEVELOPER ]\x1b[0m',
+    'Use /ping at least once → then claim badge:\n' +
+    'https://discord.com/developers/active-developer'
+  );
 
   // Register slash command globally
   const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
